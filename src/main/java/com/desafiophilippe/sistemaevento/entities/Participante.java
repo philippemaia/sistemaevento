@@ -2,7 +2,9 @@ package com.desafiophilippe.sistemaevento.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_participante")
@@ -13,6 +15,9 @@ public class Participante {
     private Integer id;
     private String nome;
     private String email;
+
+    @ManyToMany(mappedBy = "participantes")
+    private Set<Atividade> atividades = new HashSet<>();
 
     public Participante() {
     }
@@ -47,4 +52,20 @@ public class Participante {
         this.email = email;
     }
 
+    public Set<Atividade> getAtividades() {
+        return atividades;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Participante participante = (Participante) o;
+        return Objects.equals(id, participante.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }
